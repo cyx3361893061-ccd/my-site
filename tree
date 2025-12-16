@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>圣诞树下雪动画</title>
+  <style>
+    :root {
+      --bg: radial-gradient(circle at 20% 20%, #0b1f3a, #040d1a 55%);
+      --snow-color: rgba(255, 255, 255, 0.85);
+      --tree-green: #0f6135;
+      --tree-dark: #0a4b29;
+      --tree-trunk: #5c3b1e;
+      --star: #ffd166;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+      color: #e6f7ff;
+      font-family: "Microsoft YaHei", "PingFang SC", system-ui, -apple-system, sans-serif;
+      overflow: hidden;
+    }
+
+    h1 {
+      text-align: center;
+      margin: 0 0 1rem;
+      letter-spacing: 0.08em;
+      text-shadow: 0 0 12px rgba(255, 255, 255, 0.35);
+    }
+
+    p {
+      text-align: center;
+      margin: 0 0 1.5rem;
+      opacity: 0.85;
+    }
+
+    .scene {
+      position: relative;
+      width: min(420px, 90vw);
+      aspect-ratio: 1 / 1.15;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding-bottom: 40px;
+    }
+
+    .tree {
+      position: relative;
+      width: 260px;
+      max-width: 85%;
+      filter: drop-shadow(0 12px 15px rgba(0, 0, 0, 0.35));
+    }
+
+    .layer {
+      position: relative;
+      width: 100%;
+      height: 90px;
+      margin: -22px auto;
+      background: linear-gradient(180deg, var(--tree-green), var(--tree-dark));
+      clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+      border-radius: 6px 6px 12px 12px;
+      box-shadow: inset 0 8px 12px rgba(255, 255, 255, 0.08);
+    }
+
+    .layer:nth-child(1) { transform: translateY(-10px) scale(0.7); }
+    .layer:nth-child(2) { transform: translateY(10px) scale(0.85); }
+    .layer:nth-child(3) { transform: translateY(30px) scale(1); }
+
+    .trunk {
+      position: relative;
+      width: 70px;
+      height: 70px;
+      margin: 20px auto 0;
+      background: linear-gradient(180deg, #7a4a25, var(--tree-trunk));
+      border-radius: 8px;
+      box-shadow: inset 0 6px 10px rgba(0, 0, 0, 0.35);
+    }
+
+    .star {
+      position: absolute;
+      top: -22px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 44px;
+      height: 44px;
+      color: var(--star);
+      filter: drop-shadow(0 0 10px rgba(255, 209, 102, 0.8));
+      animation: twinkle 2.8s ease-in-out infinite;
+    }
+
+    .star svg { width: 100%; height: 100%; }
+
+    .ground {
+      position: absolute;
+      bottom: 0;
+      width: 110%;
+      height: 120px;
+      background: radial-gradient(circle at 50% 20px, rgba(255,255,255,0.9), rgba(255,255,255,0.2));
+      border-radius: 50% 50% 0 0;
+      filter: blur(1px);
+      z-index: 1;
+    }
+
+    .snowflake {
+      position: fixed;
+      top: -10px;
+      color: var(--snow-color);
+      pointer-events: none;
+      user-select: none;
+      will-change: transform;
+      font-size: 10px;
+      opacity: 0.85;
+      animation: fall linear forwards;
+    }
+
+    .lights {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 4px;
+      padding: 16% 14% 18%;
+      flex-wrap: wrap;
+    }
+
+    .light {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #fff, var(--color));
+      box-shadow: 0 0 12px var(--color);
+      animation: glow 2.2s ease-in-out infinite;
+      animation-delay: calc(var(--i) * -0.2s);
+    }
+
+    @keyframes glow {
+      0%, 100% { transform: scale(0.9); opacity: 0.7; }
+      50% { transform: scale(1.2); opacity: 1; }
+    }
+
+    @keyframes twinkle {
+      0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.85; }
+      50% { transform: translateX(-50%) scale(1.15); opacity: 1; }
+    }
+
+    @keyframes fall {
+      to { transform: translateY(110vh) rotate(360deg); opacity: 0.2; }
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <h1>圣诞快乐！</h1>
+    <p>一棵会下雪的圣诞树，祝你度过温暖的一天。</p>
+    <div class="scene" aria-label="Christmas tree with falling snow">
+      <div class="ground"></div>
+      <div class="tree" aria-hidden="true">
+        <div class="star">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path fill="currentColor" d="M12 2l2.6 6.7L22 9.3l-5 4.9L18 21l-6-3.2L6 21l1-6.8-5-4.9 7.4-0.6z"/>
+          </svg>
+        </div>
+        <div class="layer">
+          <div class="lights" aria-hidden="true">
+            <span class="light" style="--color:#ffadad;--i:1"></span>
+            <span class="light" style="--color:#ffd6a5;--i:2"></span>
+            <span class="light" style="--color:#fdffb6;--i:3"></span>
+            <span class="light" style="--color:#caffbf;--i:4"></span>
+          </div>
+        </div>
+        <div class="layer">
+          <div class="lights" aria-hidden="true">
+            <span class="light" style="--color:#9bf6ff;--i:1"></span>
+            <span class="light" style="--color:#a0c4ff;--i:2"></span>
+            <span class="light" style="--color:#bdb2ff;--i:3"></span>
+            <span class="light" style="--color:#ffc6ff;--i:4"></span>
+            <span class="light" style="--color:#ff9eae;--i:5"></span>
+          </div>
+        </div>
+        <div class="layer">
+          <div class="lights" aria-hidden="true">
+            <span class="light" style="--color:#ffcad4;--i:1"></span>
+            <span class="light" style="--color:#f0efeb;--i:2"></span>
+            <span class="light" style="--color:#d8e2dc;--i:3"></span>
+            <span class="light" style="--color:#ffe5d9;--i:4"></span>
+            <span class="light" style="--color:#ffd7ba;--i:5"></span>
+            <span class="light" style="--color:#fec89a;--i:6"></span>
+          </div>
+        </div>
+        <div class="trunk"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const snowflakes = ["❆", "✼", "❅", "❄", "✻", "✼"];
+    const createSnowflake = () => {
+      const flake = document.createElement("span");
+      flake.className = "snowflake";
+      flake.textContent = snowflakes[Math.floor(Math.random() * snowflakes.length)];
+      const size = Math.random() * 12 + 8;
+      flake.style.left = `${Math.random() * 100}vw`;
+      flake.style.fontSize = `${size}px`;
+      flake.style.animationDuration = `${Math.random() * 4 + 6}s`;
+      flake.style.animationDelay = `${Math.random() * 2}s`;
+      flake.style.opacity = (Math.random() * 0.5 + 0.5).toFixed(2);
+      document.body.appendChild(flake);
+
+      flake.addEventListener("animationend", () => flake.remove());
+    };
+
+    const density = matchMedia("(max-width: 600px)").matches ? 120 : 160;
+    setInterval(createSnowflake, 1000 / (density / 10));
+    for (let i = 0; i < density; i++) {
+      setTimeout(createSnowflake, i * 30);
+    }
+  </script>
+</body>
+</html>
